@@ -3,7 +3,10 @@ import * as faceapi from 'face-api.js';
 import {
   CanvasContainer,
   Container,
+  H1,
+  Span,
   VideoContainer,
+  WebcamContainer,
 } from '../../styles/globalStyles';
 import { customAxios } from '../../axiosConfig';
 
@@ -27,9 +30,8 @@ export default function Webcam({ authToken, decoded }: any) {
     };
 
     const getAllUsers = async () => {
-      customAxios.defaults.headers.get['token'] =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzI0OThiY2QxYzY4ZDAxMDg2ZTYyZjQiLCJyb2wiOiJhZG1pbiIsImNvZF91c2VyIjo0NDQsIm1haWwiOiJ2aWNmbG9yZXNzQGdtYWlsLmNvbSIsImlhdCI6MTY2NzU3Nzg5MSwiZXhwIjoxNjY3NjIxMDkxfQ.QUfO50MSWuD2qkARThjuj2fj9dGeW8UrQcENpnA1mpQ';
-      customAxios.defaults.headers.get['role'] = 'admin';
+      customAxios.defaults.headers.get['token'] = authToken;
+      customAxios.defaults.headers.get['role'] = decoded.rol;
 
       const response: any = await customAxios.get('/users');
       setAllUsers(response);
@@ -135,20 +137,26 @@ export default function Webcam({ authToken, decoded }: any) {
 
   return (
     <Container>
-      <h1>Welcome to Time Stamp with Neuronal Network</h1>
-      <span>{initializing ? 'Initializing' : 'Ready'}</span>
-      <VideoContainer>
-        <video
-          ref={videoRef}
-          playsInline
-          autoPlay
-          muted
-          height={videoHeight}
-          width={videoWidth}
-          onPlay={handleVideoOnPlay}
-        />
-        <CanvasContainer ref={canvasRef} />
-      </VideoContainer>
+      <H1>Welcome to Time Stamp with Neuronal Network</H1>
+      <Span>
+        {initializing
+          ? 'Loading facial recognition'
+          : 'Facial recognition completed'}
+      </Span>
+      <WebcamContainer>
+        <VideoContainer>
+          <video
+            ref={videoRef}
+            playsInline
+            autoPlay
+            muted
+            height={videoHeight}
+            width={videoWidth}
+            onPlay={handleVideoOnPlay}
+          />
+          <CanvasContainer ref={canvasRef} />
+        </VideoContainer>
+      </WebcamContainer>
     </Container>
   );
 }
