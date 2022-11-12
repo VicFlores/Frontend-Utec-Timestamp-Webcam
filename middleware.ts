@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import fetchAdapter from '@vespaiach/axios-fetch-adapter';
-import axios from 'axios';
 
 export async function middleware(request: NextRequest) {
   const token: any = request.cookies.get('MyTokenCookie');
@@ -11,18 +9,18 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    /*  const axiosInstance = axios.create({
-      adapter: fetchAdapter,
-    });
+    await fetch(
+      'https://utec-timestamp-rebuild.onrender.com/api/v1/login/validation/token',
 
-    await axiosInstance.get(
-      'https://backend-utec-timestamp.herokuapp.com/api/v1/login/validation/token',
       {
+        mode: 'cors',
+        method: 'GET',
         headers: {
-          Authorization: token,
+          'Content-Type': 'application/json',
+          Authorization: token.value,
         },
       }
-    ); */
+    );
 
     return NextResponse.next();
   } catch (error) {
