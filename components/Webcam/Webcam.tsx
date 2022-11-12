@@ -79,7 +79,7 @@ export default function Webcam({ authToken, decoded }: any) {
 
   async function handleVideoOnPlay() {
     const labeledDescriptors = await loadLabelImages();
-    const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
+    const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.5);
 
     setInterval(async () => {
       if (initializing) {
